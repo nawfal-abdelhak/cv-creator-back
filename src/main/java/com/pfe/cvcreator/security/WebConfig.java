@@ -56,10 +56,10 @@ public class WebConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
       //http.cors().disable().antMatcher("/api/auth/**");
-        http.authorizeRequests().antMatchers("/auth/**","/swagger-ui.html").permitAll();
+        http.authorizeRequests().antMatchers("/auth/**","/swagger-ui.html","/client/**").permitAll();
         http.authorizeRequests().antMatchers("/product/**").hasAnyAuthority("ADMIN","CLIENT");
         http.authorizeRequests().antMatchers("/admin/**").hasAuthority("ADMIN");
-        http.authorizeRequests().antMatchers("/client/**").hasAuthority("CLIENT");
+      //  http.authorizeRequests().antMatchers("/client/**").hasAuthority("CLIENT");
         http.authorizeRequests().anyRequest().authenticated();
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
     }

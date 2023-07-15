@@ -1,5 +1,6 @@
 package com.pfe.cvcreator.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.Entity;
@@ -13,12 +14,14 @@ public class Experience {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String title;
-    private String employer;
+    private String name;
+    private String hire;
     private String city;
-    private Date startDate;
-    private Date endDate;
+    private Date start_date;
+    private Date end_date;
+    private String description;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cv_id")
     private Cv cv;

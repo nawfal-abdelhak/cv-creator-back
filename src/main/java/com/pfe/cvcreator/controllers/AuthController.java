@@ -52,8 +52,8 @@ public class AuthController {
 
         final MyUserPrincipal userDetails = (MyUserPrincipal) userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
         final String token = jwtTokenUtil.generateToken(userDetails);
-        UserDTO user = Mapper.convertUserToUserDTO(userDetails.getUser());
-        return ResponseEntity.ok(new JwtResponse(token,user));
+        UserDTO userdto = Mapper.convertUserToUserDTO(userDetails.getUser());
+        return ResponseEntity.ok(new JwtResponse(token,userdto));
     }
     @PostMapping(value = "/signUp",consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> signUp(@RequestBody RegisterDTO user) throws Exception {

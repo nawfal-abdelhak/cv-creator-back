@@ -28,23 +28,25 @@ public class User {
     private String password;
     @Email
     @Column(unique = true)
-    private String email;
+    private String mail;
 
-    private String picture;
+    private String image;
 
-    private String lastName;
-    private String profileTitle;
+    private boolean subbed;
+
+    private String last_name;
+    private String profile_title;
     private String address;
-    private String phoneNumber;
+    private String phone_number;
     private String city;
-    private Date birthDate;
-    private String placeOfBirth;
-    private String linkedin;
+    private Date birth_date;
+    private String birth_place;
+
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private List<Cv> cvs;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany
     @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private List<Role> roles = new ArrayList<Role>();
 

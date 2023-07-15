@@ -10,8 +10,10 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -23,18 +25,17 @@ import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 public class FileHandler {
     private static String IMAGEDIRECTORY = "src/main/webapp/image/";
 
-    public  static List<String>  uploadFile(List<MultipartFile> files) throws IOException {
-        List<String> filenames = new ArrayList<>();
-
-        for(MultipartFile file : files) {
-            String filename = StringUtils.cleanPath(file.getOriginalFilename());
-            String ext = FilenameUtils.getExtension(filename);
-            filename = getSaltString() + "." + ext;
-            Path fileStorage = get(IMAGEDIRECTORY, filename).toAbsolutePath().normalize();
-            copy(file.getInputStream(), fileStorage, REPLACE_EXISTING);
-            filenames.add(filename);
+    public  static String  uploadFile(MultipartFile image) throws IOException {
+        Path imageStorage=null;
+        String imagename = StringUtils.cleanPath(image.getOriginalFilename());
+        String ext = FilenameUtils.getExtension(imagename);
+        imagename = getSaltString()+"."+ext;
+        imageStorage = get(IMAGEDIRECTORY, imagename).toAbsolutePath().normalize();
+        try (InputStream inputStream = image.getInputStream()) {
+            Files.copy(inputStream, imageStorage,
+                    StandardCopyOption.REPLACE_EXISTING);
         }
-        return filenames;
+        return imagename;
     }
 public static Resource downloadFile(String filename)  throws IOException {
     Path filePath = get(IMAGEDIRECTORY).toAbsolutePath().normalize().resolve(filename);

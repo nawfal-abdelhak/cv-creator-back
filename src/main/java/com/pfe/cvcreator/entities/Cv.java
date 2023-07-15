@@ -1,5 +1,6 @@
 package com.pfe.cvcreator.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import javax.persistence.Entity;
 import javax.persistence.*;
@@ -24,11 +25,12 @@ public class Cv {
     private List<Comp> comps;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "cv")
-    private List<Langue> langues;
+    private List<Langue> langs;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "cv")
-    private List<Interest> interests;
+    private List<Interest> CIs ;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
